@@ -1,8 +1,5 @@
 package programmers.skillcheck.level3;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * 프로그래머스
  * 스킬체크 레벨 3

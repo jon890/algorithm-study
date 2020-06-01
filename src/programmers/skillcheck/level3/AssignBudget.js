@@ -1,3 +1,11 @@
+/**
+ * 프로그래머스
+ * 스킬체크 레벨 3
+ *
+ * Assign Budget (예산 배정)
+ * chanllenge_id=2464
+ *
+ */
 function solution(budgets, M) {
 
     // 예산액 배열 정렬

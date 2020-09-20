@@ -35,7 +35,7 @@ public class Palindrome {
     public boolean checkPalindrome(String s) {
         Optional<String> maybeString = Optional.ofNullable(s);
 
-        if (maybeString.isEmpty()) return false;
+        if (maybeString.isPresent()) return false;
 
         String reversed = new StringBuffer(maybeString.get()).reverse().toString();
         return maybeString.get().equals(reversed);

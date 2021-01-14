@@ -5,20 +5,18 @@ import java.util.Scanner;
 /**
  * 백준 알고리즘
  * Implementation (구현)
- * 별 찍기 - 1
- * https://www.acmicpc.net/problem/2438
+ * 별 찍기 - 3
+ * https://www.acmicpc.net/problem/2440
  */
-public class DrawingStarsOne {
+public class DrawingStars3 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
         int lines = scanner.nextInt();
-        for (int i = 0; i < lines; i ++) {
-
-            for (int j = 0; j <= i; j++) {
+        for (int stars = lines; stars > 0; stars--) {
+            for (int i = 0; i < stars; i ++) {
                 System.out.print("*");
             }
-
             System.out.println("");
         }
     }

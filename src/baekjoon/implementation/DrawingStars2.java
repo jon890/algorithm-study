@@ -8,7 +8,7 @@ import java.util.Scanner;
  * 별 찍기 - 2
  * https://www.acmicpc.net/problem/2439
  */
-public class DrawingStarsTwo {
+public class DrawingStars2 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 

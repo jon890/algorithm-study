@@ -1,6 +1,6 @@
 /**
  * 두 개 뽑아서 더하기
- * 프로그래머스 월간 챌린지 시즌 1
+ * 프로그래머스 월간 코드 챌린지 시즌 1
  * https://programmers.co.kr/learn/courses/30/lessons/68644
  *
  * @param {*} numbers

@@ -25,7 +25,7 @@ public class 문자열의_아름다움 {
                 if (isBeautiful(sub)) {
                     continue;
                 } else {
-                    System.out.println("sub : " + sub + " @@@@ value : " + solve(sub));
+//                    System.out.println("sub : " + sub + " @@@@ value : " + solve(sub));
                     answer += solve(sub);
                 }
             }
@@ -53,14 +53,16 @@ public class 문자열의_아름다움 {
             if (first_char_index == -1) {
                 return length - 2;
             }
+            first_char_index = first_char_index + 1 == sub.length() ? first_char_index - 1 : first_char_index + 1;
 
             // 마지막 문자가 시작위치로부터 어디에서 나타는지 확인
             int last_char_index = sub.indexOf(compare);
             if (last_char_index == -1) {
                 return length - 2;
             }
+            last_char_index = last_char_index == 0 ? last_char_index + 1 : last_char_index - 1;
 
-            return Math.max(first_char_index, length - 1 - last_char_index);
+            return Math.max(first_char_index + 1, length - last_char_index - 2);
         }
     }
 
@@ -84,7 +86,7 @@ public class 문자열의_아름다움 {
     public static void main(String[] args) {
         문자열의_아름다움 obj = new 문자열의_아름다움();
 //        System.out.println("result oo: " + obj.solution("oo"));
-//        System.out.println("result baby: " + obj.solution("baby"));
+        System.out.println("result baby: " + obj.solution("baby"));
         System.out.println("result abaa: " + obj.solution("abaa"));
     }
 }
@@ -92,7 +94,7 @@ public class 문자열의_아름다움 {
 /**
  * 일단 메모리를 이중포문에서 많이 사용하므로 제한해야할거 같고..
  * 투포인터 알고리즘이 생각나는데 확인해봐야 겠다..
- *
+ * <p>
  * 채점을 시작합니다.
  * 정확성  테스트
  * 테스트 1 〉	통과 (0.02ms, 52.8MB)

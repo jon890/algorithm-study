@@ -1,4 +1,7 @@
 function solution(a) {
+  if (a.length === 1) return 0;
+  if (a.length === 2) return 2;
+
   // 숫자들의 갯수를 카운트할 맵 선언
   const map = new Map();
 
@@ -15,15 +18,10 @@ function solution(a) {
   const sorted = [...map.entries()].sort((e1, e2) => e2[1] - e1[1]);
   //   console.log(sorted);
 
-  // 제일 많은 원소를 사용할때가 제일 크다..
-  const [_, mostAmountElements] = sorted.shift();
-  const remainElements = sorted.reduce((acc, cur) => acc + cur[1], 0);
+  // 제일 많은 원소를 기준으로 체크시작
+  const [mostAmountEl_, mostAmountElCounts] = sorted.shift();
 
-  //   console.log(mostAmountElement, remainElements);
-
-  return remainElements > mostAmountElements
-    ? mostAmountElements * 2
-    : remainElements * 2;
+  return -1;
 }
 
 solution([0, 3, 3, 0, 7, 2, 0, 2, 2, 0]);

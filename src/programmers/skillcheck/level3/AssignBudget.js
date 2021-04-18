@@ -7,39 +7,38 @@
  *
  */
 function solution(budgets, M) {
+  // 예산액 배열 정렬
+  budgets.sort((b1, b2) => b2 - b1);
 
-    // 예산액 배열 정렬
-    budgets.sort((b1, b2) => b2 - b1);
+  let answer;
+  let exceed_number = 0; // 예산 요청을 넘은 갯수
+  let current_budget = 0; // 사용한 예산
 
-    let answer;
-    let exceed_number = 0; // 예산 요청을 넘은 갯수
-    let current_budget = 0; // 사용한 예산
+  // 예산액 제일 큰 것 부터 검사 시작
+  // 초괴 ~ 통과 사이의 값을 찾는다
+  for (let i = 0; i < budgets.length; i++) {
+    current_budget = 0;
+    exceed_number = i;
 
-    // 예산액 제일 큰 것 부터 검사 시작
-    // 초괴 ~ 통과 사이의 값을 찾는다
-    for (let i = 0; i < budgets.length; i++) {
-        current_budget = 0;
-        exceed_number = i;
-
-        // 예산 요청을 넘지않은 지방에 한하여 예산을 모두 더한다
-        for (let j = exceed_number; j < budgets.length; j++) {
-            current_budget += budgets[j];
-        }
-
-        // 나머지 금액은 상한액 만큼 더한다
-        current_budget += exceed_number * budgets[i];
-
-        if (current_budget <= M) {
-            answer = budgets[i];
-            break;
-        }
+    // 예산 요청을 넘지않은 지방에 한하여 예산을 모두 더한다
+    for (let j = exceed_number; j < budgets.length; j++) {
+      current_budget += budgets[j];
     }
 
-    // 남은 예산 사용하기
-    const remain = M - current_budget;
-    answer += Math.floor(remain / exceed_number);
+    // 나머지 금액은 상한액 만큼 더한다
+    current_budget += exceed_number * budgets[i];
 
-    return answer;
+    if (current_budget <= M) {
+      answer = budgets[i];
+      break;
+    }
+  }
+
+  // 남은 예산 사용하기
+  const remain = M - current_budget;
+  answer += Math.floor(remain / exceed_number);
+
+  return answer;
 }
 
 /*

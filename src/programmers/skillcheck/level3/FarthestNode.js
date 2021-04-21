@@ -1,3 +1,34 @@
+function solution(n, edge) {
+  // graph
+  const graph = new Array(n);
+  for (let i = 0; i < n; i++) {
+    graph[i] = [];
+  }
+
+  // edge 반영
+  edge.forEach(([start, end]) => {
+    let newStart = start - 1;
+    let newEnd = end - 1;
+    graph[newStart].push(newEnd);
+    grpah[newEnd].push(newStart);
+  });
+
+  // dijkstra
+  const distances = dijkstra(0, graph);
+  distances.sort((a, b) => b - a);
+  let answer = 0;
+  const max = distances[0];
+  for (let i = 0; i < distances.length; i++) {
+    if (distances[i] === max) {
+      answer++;
+    } else {
+      break;
+    }
+  }
+
+  return answer;
+}
+
 function dijkstra(startIndex, graph) {
   const n = graph.length; // 노드 갯수
 
@@ -55,3 +86,15 @@ function dijkstra(startIndex, graph) {
 
   return distance;
 }
+
+console.log(
+  solution(6, [
+    [3, 6],
+    [4, 3],
+    [3, 2],
+    [1, 3],
+    [1, 2],
+    [2, 4],
+    [5, 2],
+  ]),
+);

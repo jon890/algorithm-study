@@ -1,86 +1,90 @@
 function solution(jobs) {
+  // 짧은 작업을 우선시 하면 됨
+  // 큐에서 제일 짧은 작업을 꺼내서 작업을 처리하자
+  let scheduler_timer = 0; // 스케쥴러의 내부 시간
+  const scheduler_queue = []; // 스케쥴러 job queue
+  const total_jobs = jobs.length; // 총 작업의 갯수
+  let total_time = 0; // 총 걸린시간 = 대기시간 + 처리시간
+  let processed_count = 0; // 처리된 job 갯수
 
-    // 짧은 작업을 우선시 하면 됨
-    // 큐에서 제일 짧은 작업을 꺼내서 작업을 처리하자
-    let scheduler_timer = 0; // 스케쥴러의 내부 시간
-    const scheduler_queue = []; // 스케쥴러 job queue
-    const total_jobs = jobs.length; // 총 작업의 갯수
-    let total_time = 0; // 총 걸린시간 = 대기시간 + 처리시간
-    let processed_count = 0; // 처리된 job 갯수
+  while (processed_count < total_jobs) {
+    // adding scheduler
+    // fixme kbt : 예상 되는 대기시간 + 처리시간이 제일 짧은 job을 찾자..?
+    const moved_jobs = [];
+    jobs.forEach((item, index) => {
+      const arrival_time = item[0];
 
-    while (processed_count < total_jobs) {
-        // adding scheduler
-        // fixme kbt : 예상 되는 대기시간 + 처리시간이 제일 짧은 job을 찾자..?
-        const moved_jobs = [];
-        jobs.forEach((item, index) => {
-            const arrival_time = item[0];
+      if (scheduler_timer >= arrival_time) {
+        scheduler_queue.push(item);
+        moved_jobs.push(index);
+      }
+    });
 
-            if (scheduler_timer >= arrival_time) {
-                scheduler_queue.push(item);
-                moved_jobs.push(index);
-            }
-        });
+    // 스케쥴러로 옮겨간 잡은 뺀다
+    jobs = deleteItems(moved_jobs, jobs);
 
-
-        // 스케쥴러로 옮겨간 잡은 뺀다
-        jobs = deleteItems(moved_jobs, jobs);
-
-
-        // find minimum processing job
-        const minimum_index = findMinimumIndex(scheduler_queue, 1);
-        if (minimum_index === -1) {
-            scheduler_timer++;
-            continue;
-        }
-        console.log(scheduler_queue);
-        console.log(`min value = ${scheduler_queue[minimum_index]} , min index = ${minimum_index}`);
-
-
-        // running
-        const item = scheduler_queue[minimum_index];
-        const waiting_time = scheduler_timer - item[0];
-        const processing_time = waiting_time + item[1]; // 기다린 시간 + 처리 시간
-        console.log(`item = ${item}`);
-        console.log(`waiting_time = ${waiting_time}`);
-        console.log(`processing_time= ${processing_time}`);
-        scheduler_timer += item[1];
-
-        total_time += processing_time;
-        scheduler_queue.splice(minimum_index, 1);
-        processed_count++;
-        console.log(`total time = ${total_time}`);
-        console.log(`####################\n\n`);
+    // find minimum processing job
+    const minimum_index = findMinimumIndex(scheduler_queue, 1);
+    if (minimum_index === -1) {
+      scheduler_timer++;
+      continue;
     }
-    return total_time / processed_count;
+    console.log(scheduler_queue);
+    console.log(
+      `min value = ${scheduler_queue[minimum_index]} , min index = ${minimum_index}`,
+    );
+
+    // running
+    const item = scheduler_queue[minimum_index];
+    const waiting_time = scheduler_timer - item[0];
+    const processing_time = waiting_time + item[1]; // 기다린 시간 + 처리 시간
+    console.log(`item = ${item}`);
+    console.log(`waiting_time = ${waiting_time}`);
+    console.log(`processing_time= ${processing_time}`);
+    scheduler_timer += item[1];
+
+    total_time += processing_time;
+    scheduler_queue.splice(minimum_index, 1);
+    processed_count++;
+    console.log(`total time = ${total_time}`);
+    console.log(`####################\n\n`);
+  }
+  return total_time / processed_count;
 }
 
 function findMinimumIndex(arr, column_index) {
-    if (!Array.isArray(arr)) return -1;
-    if (arr.length === 0) return -1;
+  if (!Array.isArray(arr)) return -1;
+  if (arr.length === 0) return -1;
 
-    let index = -1;
-    let current_value = Number.MAX_VALUE;
+  let index = -1;
+  let current_value = Number.MAX_VALUE;
 
-    for (let i = 0; i < arr.length; i++) {
-        if (arr[i][column_index] < current_value) {
-            index = i;
-            current_value = arr[i][column_index];
-        }
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i][column_index] < current_value) {
+      index = i;
+      current_value = arr[i][column_index];
     }
-    return index;
+  }
+  return index;
 }
 
 function deleteItems(index_array, target_array) {
-    const new_array = [];
-    target_array.forEach((item, index) => {
-        if (!(~index_array.indexOf(index))) {
-            new_jobs.push(item);
-        }
-    });
-    return new_array;
+  const new_array = [];
+  target_array.forEach((item, index) => {
+    if (!~index_array.indexOf(index)) {
+      new_jobs.push(item);
+    }
+  });
+  return new_array;
 }
 
-console.log(solution([[0, 3], [1, 9], [2, 6]]));
+console.log(
+  solution([
+    [0, 3],
+    [1, 9],
+    [2, 6],
+  ]),
+);
 
 /*
 20-09-20

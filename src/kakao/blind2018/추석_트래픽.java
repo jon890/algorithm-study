@@ -16,7 +16,7 @@ public class 추석_트래픽 {
                 .map(line -> {
                     String[] splits = line.split(" ");
 
-                    double processingTime = Double.parseDouble(splits[2].substring(0, splits[2].length() - 1));
+                    float processingTime = Float.parseFloat(splits[2].substring(0, splits[2].length() - 1));
                     long processingTimeMillis = (long) (processingTime * 1000);
 
                     String dateAndTime = splits[0] + " " + splits[1];
@@ -55,7 +55,7 @@ public class 추석_트래픽 {
     private int check(LocalDateTime intervalStart, List<Log> logs) {
         int count = 0;
 
-        LocalDateTime intervalEnd = intervalStart.plus(1L, ChronoUnit.SECONDS);
+        LocalDateTime intervalEnd = intervalStart.plus(1000 - 1, ChronoUnit.MILLIS);
 
         for (int i = 0; i < logs.size(); i++) {
             Log log = logs.get(i);
@@ -78,22 +78,22 @@ public class 추석_트래픽 {
 
     public static void main(String[] args) {
         추석_트래픽 obj = new 추석_트래픽();
-//        obj.solution(new String[]{
-//                "2016-09-15 01:00:04.001 2.0s",
-//                "2016-09-15 01:00:07.000 2s"
-//        });
         obj.solution(new String[]{
-                "2016-09-15 20:59:57.421 0.351s",
-                "2016-09-15 20:59:58.233 1.181s",
-                "2016-09-15 20:59:58.299 0.8s",
-                "2016-09-15 20:59:58.688 1.041s",
-                "2016-09-15 20:59:59.591 1.412s",
-                "2016-09-15 21:00:00.464 1.466s",
-                "2016-09-15 21:00:00.741 1.581s",
-                "2016-09-15 21:00:00.748 2.31s",
-                "2016-09-15 21:00:00.966 0.381s",
-                "2016-09-15 21:00:02.066 2.62s"}
-        );
+                "2016-09-15 01:00:04.001 2.0s",
+                "2016-09-15 01:00:07.000 2s"
+        });
+//        obj.solution(new String[]{
+//                "2016-09-15 20:59:57.421 0.351s",
+//                "2016-09-15 20:59:58.233 1.181s",
+//                "2016-09-15 20:59:58.299 0.8s",
+//                "2016-09-15 20:59:58.688 1.041s",
+//                "2016-09-15 20:59:59.591 1.412s",
+//                "2016-09-15 21:00:00.464 1.466s",
+//                "2016-09-15 21:00:00.741 1.581s",
+//                "2016-09-15 21:00:00.748 2.31s",
+//                "2016-09-15 21:00:00.966 0.381s",
+//                "2016-09-15 21:00:02.066 2.62s"}
+//        );
     }
 }
 
@@ -124,12 +124,16 @@ class Log {
 }
 
 /**
- *
  * 2021-05-01
  * js로 시간 다루기가 어려워서 한번 자바로 풀어봄
  * 역시나 테스트케이스 3번은 이해가 되지 않았고
  * 결국 전체 테스트에서도 2개가 틀린듯하다.
  * 흠.. 왜 그런건지 오늘은 이해 안됨..
+ * <p>
+ *
+ * 2021-05-02
+ * 문제에서 주어진 1초는 양 끝점을 포함하는 구간이었네..
+ * 그래서 시작 구간에 1000 - 1ms인 999ms를 더 해야 종료구간이 됨
  *
  * 채점을 시작합니다.
  * 정확성  테스트

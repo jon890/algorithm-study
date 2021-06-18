@@ -3,6 +3,7 @@ package codility;
 import java.util.ArrayList;
 import java.util.List;
 
+// LESSON 1 - Iterations
 public class BinaryGap {
 
     public static int solution(int N) {

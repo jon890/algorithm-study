@@ -1,5 +1,6 @@
 package codility;
 
+// LESSON 2 - Arrays
 public class CyclicRotation {
 
     public int[] solution(int[] A, int K) {

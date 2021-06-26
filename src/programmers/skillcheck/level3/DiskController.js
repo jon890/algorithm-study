@@ -1,81 +1,36 @@
 function solution(jobs) {
-  // 짧은 작업을 우선시 하면 됨
-  // 큐에서 제일 짧은 작업을 꺼내서 작업을 처리하자
-  let scheduler_timer = 0; // 스케쥴러의 내부 시간
-  const scheduler_queue = []; // 스케쥴러 job queue
-  const total_jobs = jobs.length; // 총 작업의 갯수
-  let total_time = 0; // 총 걸린시간 = 대기시간 + 처리시간
-  let processed_count = 0; // 처리된 job 갯수
+  // 작업이 들어온 순서로 정렬한다
+  jobs.sort((a, b) => a[0] - b[0]);
 
-  while (processed_count < total_jobs) {
-    // adding scheduler
-    // fixme kbt : 예상 되는 대기시간 + 처리시간이 제일 짧은 job을 찾자..?
-    const moved_jobs = [];
-    jobs.forEach((item, index) => {
-      const arrival_time = item[0];
+  // 현재 시간
+  let currentTime = 0;
 
-      if (scheduler_timer >= arrival_time) {
-        scheduler_queue.push(item);
-        moved_jobs.push(index);
-      }
-    });
+  // 대기시간 + 처리시간들을 계산할 배열
+  const times = [];
 
-    // 스케쥴러로 옮겨간 잡은 뺀다
-    jobs = deleteItems(moved_jobs, jobs);
+  while (jobs.length > 0) {
+    const shortestJobIndex = jobs
+      .sort((a, b) => a[1] - b[1]) // 작업들을 실행 시간을 기준으로 정렬한다
+      .findIndex(([arriveTime]) => arriveTime <= currentTime); // 도착한 작업을 찾는다
 
-    // find minimum processing job
-    const minimum_index = findMinimumIndex(scheduler_queue, 1);
-    if (minimum_index === -1) {
-      scheduler_timer++;
+    // 도착한 제일 짧은 작업이 없다!
+    if (!~shortestJobIndex) {
+      currentTime++;
       continue;
     }
-    console.log(scheduler_queue);
-    console.log(
-      `min value = ${scheduler_queue[minimum_index]} , min index = ${minimum_index}`,
-    );
 
-    // running
-    const item = scheduler_queue[minimum_index];
-    const waiting_time = scheduler_timer - item[0];
-    const processing_time = waiting_time + item[1]; // 기다린 시간 + 처리 시간
-    console.log(`item = ${item}`);
-    console.log(`waiting_time = ${waiting_time}`);
-    console.log(`processing_time= ${processing_time}`);
-    scheduler_timer += item[1];
+    const [arrivedTime, processingTime] = jobs[shortestJobIndex];
 
-    total_time += processing_time;
-    scheduler_queue.splice(minimum_index, 1);
-    processed_count++;
-    console.log(`total time = ${total_time}`);
-    console.log(`####################\n\n`);
+    // 작업 배열에서 제거한다
+    jobs.splice(shortestJobIndex, 1);
+    // 작업을 수행한다
+    currentTime += processingTime;
+    // 기다린시간 + 작업처리시간을 시간 배열에 추가한다
+    times.push(currentTime - arrivedTime);
   }
-  return total_time / processed_count;
-}
 
-function findMinimumIndex(arr, column_index) {
-  if (!Array.isArray(arr)) return -1;
-  if (arr.length === 0) return -1;
-
-  let index = -1;
-  let current_value = Number.MAX_VALUE;
-
-  for (let i = 0; i < arr.length; i++) {
-    if (arr[i][column_index] < current_value) {
-      index = i;
-      current_value = arr[i][column_index];
-    }
-  }
-  return index;
-}
-
-function deleteItems(index_array, target_array) {
-  const new_array = [];
-  target_array.forEach((item, index) => {
-    if (!~index_array.indexOf(index)) {
-      new_jobs.push(item);
-    }
-  });
-  return new_array;
+  const sum = times.reduce((acc, cur) => acc + cur, 0);
+  return parseInt(sum / times.length);
 }
 
 console.log(
@@ -86,34 +41,37 @@ console.log(
   ]),
 );
 
-/*
-20-09-20
-오랜만에 다시도전..
-80분동안 풀었는데 ㅡ.ㅡ 이런..
-
+/**
+ * 시간 초과가 나는듯
+ * 처음에 풀었을 때 보다 깔끔하게 정리가 되었으나..
+ * 시간을 어디서 줄여할까
+ * => 시간을 최대한 줄여보아도 런타임 에러가 난다 오류가 있는건가보다
+ * => 첫 작업을 선택시 0초에 작업이 들어오지 않으면 무한루프를 돌았다
+ *    이 부분을 처리해서 해결 완료!
 채점을 시작합니다.
 정확성  테스트
-테스트 1 〉	실패 (4.74ms, 32MB)
-테스트 2 〉	실패 (3.88ms, 32.4MB)
-테스트 3 〉	실패 (5.14ms, 32.8MB)
-테스트 4 〉	실패 (3.97ms, 32.6MB)
-테스트 5 〉	실패 (4.78ms, 32.9MB)
-테스트 6 〉	실패 (0.46ms, 30MB)
-테스트 7 〉	실패 (4.93ms, 31.9MB)
-테스트 8 〉	실패 (3.38ms, 32.9MB)
-테스트 9 〉	실패 (1.01ms, 30.3MB)
-테스트 10 〉	실패 (5.08ms, 33.1MB)
-테스트 11 〉	통과 (0.23ms, 29.9MB)
-테스트 12 〉	실패 (0.26ms, 30.2MB)
-테스트 13 〉	실패 (0.27ms, 30MB)
-테스트 14 〉	통과 (0.26ms, 30.1MB)
-테스트 15 〉	실패 (0.17ms, 30MB)
-테스트 16 〉	실패 (0.20ms, 30.1MB)
-테스트 17 〉	실패 (0.21ms, 30MB)
-테스트 18 〉	통과 (0.20ms, 30.1MB)
-테스트 19 〉	실패 (0.20ms, 30.1MB)
-테스트 20 〉	통과 (0.18ms, 30MB)
+테스트 1 〉	통과 (4.95ms, 32.2MB)
+테스트 2 〉	통과 (4.08ms, 32MB)
+테스트 3 〉	통과 (3.87ms, 32.1MB)
+테스트 4 〉	통과 (3.51ms, 31.9MB)
+테스트 5 〉	통과 (4.39ms, 32.1MB)
+테스트 6 〉	통과 (0.53ms, 30MB)
+테스트 7 〉	통과 (3.25ms, 31.9MB)
+테스트 8 〉	통과 (3.16ms, 31.7MB)
+테스트 9 〉	통과 (1.42ms, 30.3MB)
+테스트 10 〉	통과 (5.07ms, 32.5MB)
+테스트 11 〉	통과 (0.25ms, 30.1MB)
+테스트 12 〉	통과 (0.26ms, 30MB)
+테스트 13 〉	통과 (0.24ms, 30.1MB)
+테스트 14 〉	통과 (0.23ms, 29.9MB)
+테스트 15 〉	통과 (0.26ms, 30.1MB)
+테스트 16 〉	통과 (0.19ms, 30.2MB)
+테스트 17 〉	통과 (0.20ms, 29.9MB)
+테스트 18 〉	통과 (0.16ms, 30.2MB)
+테스트 19 〉	통과 (0.20ms, 30.2MB)
+테스트 20 〉	통과 (0.14ms, 30MB)
 채점 결과
-정확성: 20.0
-합계: 20.0 / 100.0
+정확성: 50.0
+효율성: 0.0
+합계: 50.0 / 50
  */

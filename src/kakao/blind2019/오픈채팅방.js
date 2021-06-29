@@ -1,38 +1,35 @@
 function solution(recordList) {
+  // Operation const object 선언
   const Operation = {
-    Enter: { key: 'Enter', message: '들어왔습니다' },
-    Leave: { key: 'Leave', message: '나갔습니다' },
-    Change: { key: 'Change', message: '' },
+    Enter: { name: 'Enter', message: '들어왔습니다' },
+    Leave: { name: 'Leave', message: '나갔습니다' },
+    Change: { name: 'Change', message: null },
   };
 
-  const processedRecordList = recordList.map((record) => {
-    const divided = record.split(' ');
-    return {
-      uid: divided[1],
-      operation: divided[0],
-      ...(divided[2] && { newNickname: divided[2] }),
-    };
-  });
+  const uidNicknameMap = new Map(); // uid - nickname을 연관지을 객체
+  const result = []; // 채팅 결과를 담을 객체
 
-  const uidNicknameMap = new Map();
-  processedRecordList.forEach((record) => {
-    if (Operation.Leave.key !== record.operation) {
-      uidNicknameMap.set(record.uid, record.newNickname);
-    }
-  });
+  recordList
+    // record를 의미가 담긴 객체 형태로 변환한다
+    .map((record) => {
+      const [operation, uid, nickname] = record.split(' ');
 
-  const result = [];
-  for (let record of processedRecordList) {
-    const { uid, operation } = record;
+      // 닉네임이 있다면 uid - nickname 맵에 넣어준다
+      if (nickname) {
+        uidNicknameMap.set(uid, nickname);
+      }
 
-    if (Operation.Change.key === operation) {
-      continue;
-    }
+      return {
+        operation: Operation[operation],
+        uid,
+        ...(nickname && { nickname }),
+      };
+    })
+    .forEach(({ uid, operation }) => {
+      if (operation === Operation.Change) return;
+      result.push(`${uidNicknameMap.get(uid)}님이 ${operation.message}.`);
+    });
 
-    result.push(
-      `${uidNicknameMap.get(uid)}님이 ${Operation[operation].message}.`,
-    );
-  }
   return result;
 }
 

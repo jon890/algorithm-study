@@ -1,58 +1,41 @@
 function solution(orders, course) {
-  const foodSet = new Set();
-  const foodList = [];
+  const foodMap = new Map(); // 코스메뉴와 몇번 주문된 카운트 기록
+  const courseLengthMaxOrderCountMap = new Map();
   const answer = [];
 
-  // 주문을 확인하여 음식 종류 집합에 담는다
   orders.forEach((order) => {
-    for (const food of order) foodSet.add(food);
-  });
+    const orderArray = order.split('');
 
-  // 조합을 하기 위해서 Array로 변환한다
-  foodList.push(...foodSet);
+    course.forEach((number) => {
+      // 이 주문으로 만들 수 있는 조합을 찾는다
+      const combinationList = combinationArray(orderArray, number);
 
-  course.forEach((number) => {
-    // 중복된 메뉴가 number 개인 조합을 찾는다
-    const combinationList = combinationArray(foodList, number);
-    // 후보 코스메뉴를 담을 배열
-    let candidate = [];
+      combinationList.forEach((combination) => {
+        // 해당 조합을 사전순으로 정렬한다
+        // 그리고 합친다
+        const key = combination.sort().join('');
 
-    combinationList.forEach((combination) => {
-      // 해당 원소가 모두 포함된 주문이 2개 이상인지 확인
-      let count = 0;
-      for (const order of orders) {
-        if (check(combination, order)) count++;
-      }
+        // 코스메뉴 후보에 등록한다
+        let value = !foodMap.has(key) ? 1 : foodMap.get(key) + 1;
+        foodMap.set(key, value);
 
-      if (count >= 2) {
-        candidate.push({ key: combination.sort().join(''), value: count });
-      }
+        // 코스메뉴의 길이와 최대주문횟수를 기록한다
+        let maxValue = Math.max(
+          courseLengthMaxOrderCountMap.get(key.length) || 0,
+          value,
+        );
+        courseLengthMaxOrderCountMap.set(key.length, maxValue);
+      });
     });
-
-    if (candidate.length > 1) {
-      candidate.sort((a, b) => b.value - a.value);
-      const maxValue = candidate[0].value;
-      for (const item of candidate) {
-        if (item.value === maxValue) answer.push(item.key);
-        else break;
-      }
-    } else if (candidate.length === 1) {
-      answer.push(candidate[0].key);
-    }
   });
 
-  answer.sort();
-  return answer;
-}
-
-function check(combination, order) {
-  let count = 0;
-  for (const food of combination) {
-    if (~order.indexOf(food)) {
-      count++;
-    }
-  }
-  return count === combination.length;
+  return Array.from(foodMap.entries())
+    .filter(([key, value]) => {
+      if (value < 2) return false;
+      if (value === courseLengthMaxOrderCountMap.get(key.length)) return true;
+    })
+    .map(([key]) => key)
+    .sort();
 }
 
 function combinationArray(array, count) {
@@ -77,7 +60,11 @@ function combinationArray(array, count) {
   return result;
 }
 
-solution(['ABCFG', 'AC', 'CDE', 'ACDE', 'BCFG', 'ACDEH'], [2, 3, 4]);
+// console.log(
+//   solution(['ABCFG', 'AC', 'CDE', 'ACDE', 'BCFG', 'ACDEH'], [2, 3, 4]),
+// );
+
+console.log(solution(['XYZ', 'XWY', 'WXA'], [2, 3, 4]));
 
 /**
  * 2021-06-30

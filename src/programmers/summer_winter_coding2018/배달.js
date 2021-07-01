@@ -1,3 +1,26 @@
+function solution(N, road, K) {
+  const graph = getGraph(N, road);
+  const distance = dijkstra(0, graph);
+  return distance.filter((d) => d <= K).length;
+}
+
+function getGraph(N, road) {
+  // N x N 의 2차원 그래프 생성
+  const graph = new Array(N).fill().map((_) => new Array(N).fill(Infinity));
+
+  for (let [start, end, distance] of road) {
+    start--;
+    end--;
+
+    // 도로가 여러개 있을 수 있으므로 이전값과 비교
+    distance = Math.min(distance, graph[start][end] || 0);
+    graph[start][end] = distance;
+    graph[end][start] = distance;
+  }
+
+  return graph;
+}
+
 function dijkstra(startIndex, graph) {
   const n = graph.length; // 노드 갯수
 
@@ -37,3 +60,30 @@ function dijkstra(startIndex, graph) {
 
   return distance;
 }
+
+solution(
+  5,
+  [
+    [1, 2, 1],
+    [2, 3, 3],
+    [5, 2, 2],
+    [1, 4, 2],
+    [5, 3, 1],
+    [5, 4, 2],
+  ],
+  3,
+);
+
+solution(
+  6,
+  [
+    [1, 2, 1],
+    [1, 3, 2],
+    [2, 3, 2],
+    [3, 4, 3],
+    [3, 5, 2],
+    [3, 5, 3],
+    [5, 6, 1],
+  ],
+  4,
+);

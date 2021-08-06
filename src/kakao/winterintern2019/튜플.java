@@ -8,7 +8,7 @@ import java.util.*;
  *
  * @See <a href="https://programmers.co.kr/learn/courses/30/lessons/64065">https://programmers.co.kr/learn/courses/30/lessons/64065</a>
  */
-public class Tuple {
+public class 튜플 {
 
     public static int[] solution(String s) {
         // 앞뒤 입력받은 문자에서 앞 - { 뒤 - }} 제거

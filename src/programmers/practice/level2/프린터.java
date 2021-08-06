@@ -10,7 +10,7 @@ import java.util.LinkedList;
  * 프린터
  * https://programmers.co.kr/learn/courses/30/lessons/42587?language=java
  */
-public class Printer {
+public class 프린터 {
 
     public int solution(int[] priorities, int location) {
 
@@ -65,7 +65,7 @@ public class Printer {
     }
 
     public static void main(String[] args) {
-        Printer obj = new Printer();
+        프린터 obj = new 프린터();
 
 //        int[] priorities_1 = {2, 1, 3, 2};
 //        int location_1 = 2;

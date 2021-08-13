@@ -1,0 +1,6 @@
+-- 보호 시작일보다 입양일이 더 빠른 동물의 아이디와 이름을 조회하는 SQL
+-- 보호 시작일이 빠른순으로 정렬
+SELECT I.ANIMAL_ID, I.NAME
+FROM ANIMAL_INS I, ANIMAL_OUTS O
+WHERE I.ANIMAL_ID = O.ANIMAL_ID AND I.DATETIME > O.DATETIME
+ORDER BY I.DATETIME ASC

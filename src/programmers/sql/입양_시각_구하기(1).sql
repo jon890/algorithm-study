@@ -11,6 +11,7 @@ GROUP BY HOUR
 ORDER BY HOUR
 
 -- hour, group by, having에 대해서 더 공부하기
+-- extract (hour from cast(datetime as timestamp)) 도 가능하다!
 SELECT HOUR(DATETIME) AS HOUR, COUNT(HOUR(DATETIME)) AS COUNT
 FROM ANIMAL_OUTS
 GROUP BY HOUR

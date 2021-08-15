@@ -1,0 +1,6 @@
+-- 아이디, 이름, 들어온 날짜
+-- 들어온 날짜를 DATETIME에서 DATE로 형변환
+-- 아이디 순으로 정렬
+SELECT ANIMAL_ID, NAME, TO_CHAR(DATETIME, 'YYYY-MM-DD') AS 날짜
+FROM ANIMAL_INS
+ORDER BY ANIMAL_ID

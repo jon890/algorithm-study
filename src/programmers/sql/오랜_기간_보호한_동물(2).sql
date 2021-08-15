@@ -1,0 +1,8 @@
+-- 입양을 간 동물중, 보호 기간이 가장 길었던 동물 두 마리
+-- 아이디와 이름 조회
+-- 보호 기간이 긴 순으로 조회
+SELECT I.ANIMAL_ID, I.NAME
+FROM ANIMAL_INS I, ANIMAL_OUTS O
+WHERE I.ANIMAL_ID = O.ANIMAL_ID
+ORDER BY (O.DATETIME - I.DATETIME) DESC
+FETCH FIRST 2 ROWS ONLY

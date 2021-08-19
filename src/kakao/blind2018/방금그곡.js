@@ -2,7 +2,7 @@
  * 2021-08-19
  * 테스트케이스 12번을 통과 못하는중!!
  * 같은 노래 검출에서 cdcdf cdcdcdf를 검출하지 못하고 있음
- * 해결해보기!!
+ * 완료!!!!
  */
 
 function solution(m, musicinfos) {
@@ -51,20 +51,18 @@ function solution(m, musicinfos) {
 // source array에 완전히 포함되어 있는지 확인하는 메소드
 function compareInclusiveRelationship(target, source) {
   let count = 0;
-  let tIndex = 0;
-  let sIndex = 0;
 
-  while (sIndex < source.length) {
-    if (count === target.length) break;
-
-    if (source[sIndex] === target[tIndex]) {
-      count++;
-      tIndex++;
-    } else {
-      tIndex = 0;
-      count = 0;
+  for (let i = 0; i <= source.length - target.length; i++) {
+    for (let j = 0; j < target.length; j++) {
+      if (source[i + j] === target[j]) {
+        count++;
+      } else {
+        count = 0;
+        break;
+      }
     }
-    sIndex++;
+
+    if (count === target.length) break;
   }
 
   return count === target.length;

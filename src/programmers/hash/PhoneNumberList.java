@@ -1,4 +1,4 @@
-package programmers.practice.hash;
+package programmers.hash;
 
 /**
  * 프로그래머스

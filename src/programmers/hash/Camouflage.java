@@ -1,4 +1,4 @@
-package programmers.practice.hash;
+package programmers.hash;
 
 import java.util.ArrayList;
 import java.util.HashMap;

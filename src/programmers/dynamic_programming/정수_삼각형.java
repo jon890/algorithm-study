@@ -1,6 +1,4 @@
-package programmers.practice.dynamic_programming;
-
-import java.util.Arrays;
+package programmers.dynamic_programming;
 
 public class 정수_삼각형 {
 

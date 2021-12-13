@@ -1,4 +1,4 @@
-package programmers.practice.dfsbfs;
+package programmers.dfsbfs;
 
 /**
  * 프로그래머스

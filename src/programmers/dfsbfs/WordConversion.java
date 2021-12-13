@@ -1,4 +1,4 @@
-package programmers.practice.dfsbfs;
+package programmers.dfsbfs;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

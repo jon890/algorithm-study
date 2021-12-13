@@ -1,4 +1,4 @@
-package programmers.practice.hash;
+package programmers.hash;
 
 import java.util.*;
 import java.util.stream.Collectors;

@@ -1,4 +1,4 @@
-package programmers.practice.bruteforce;
+package programmers.bruteforce;
 
 import java.util.ArrayList;
 import java.util.Arrays;

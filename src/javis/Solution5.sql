@@ -1,0 +1,10 @@
+-- 코드를 입력하세요
+-- 상품정보, 아이디, 장바구니 아이디, 상품 종류, 가격
+
+-- 수량 지정 기능 x
+-- CART_ID, NAME, QUANTITY
+
+SELECT CART_ID, NAME, COUNT(*) AS QUANTITY
+FROM CART_PRODUCTS
+GROUP BY CART_ID, NAME, PRICE
+ORDER BY CART_ID, NAME;

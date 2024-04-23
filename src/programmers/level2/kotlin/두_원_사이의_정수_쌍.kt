@@ -23,7 +23,7 @@ package programmers.level2.kotlin
  * 정확성: 60.0
  * 합계: 60.0 / 100.0
  */
-class Solution {
+class 두_원_사이의_정수_쌍 {
     fun solution(r1: Int, r2: Int): Long {
         var count = 0L
         for (x in 1..r2) {
@@ -39,7 +39,7 @@ class Solution {
 }
 
 fun main() {
-    val sol = Solution()
+    val sol = 두_원_사이의_정수_쌍()
 
     val ret1 = sol.solution(r1 = 2, r2 = 3)
     if (ret1 != 20L) {

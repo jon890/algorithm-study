@@ -1,40 +1,41 @@
 package programmers.level2.kotlin
 
+import kotlin.math.floor
+import kotlin.math.pow
+import kotlin.math.sqrt
+
 /**
  * 서로 다른 크기의 원 2개
  *
  * 원 사이의 정수 좌표의 갯수
  * 이중 반복문 => 시간 초과
- * TODO 새로운 방법이 필요해...
- *
- * 채점을 시작합니다.
- * 정확성  테스트
- * 테스트 1 〉	통과 (0.05ms, 61.4MB)
- * 테스트 2 〉	통과 (0.05ms, 58.9MB)
- * 테스트 3 〉	통과 (0.09ms, 59.3MB)
- * 테스트 4 〉	통과 (11.19ms, 59.4MB)
- * 테스트 5 〉	통과 (7.00ms, 59.2MB)
- * 테스트 6 〉	통과 (16.25ms, 58.8MB)
- * 테스트 7 〉	실패 (시간 초과)
- * 테스트 8 〉	실패 (시간 초과)
- * 테스트 9 〉	실패 (시간 초과)
- * 테스트 10 〉	실패 (시간 초과)
- * 채점 결과
- * 정확성: 60.0
- * 합계: 60.0 / 100.0
+ * 1중 반복문 => x가 0일 때 우리가 어떻게 갯수를 세는지 다시 생각해보고 힌트를 찾는다
+ * Int * Int는 오버플로우가 일어날 수 있다, Math.pow()를 사용하자
  */
 class 두_원_사이의_정수_쌍 {
     fun solution(r1: Int, r2: Int): Long {
         var count = 0L
         for (x in 1..r2) {
-            for (y in 1..r2) {
-                if (x * x + y * y >= r1 * r1 && x * x + y * y <= r2 * r2) {
-                    count++
-                }
+            val max = sqrt((r2.toDouble().pow(2) - x.toDouble().pow(2))).toLong()
+
+            val min = if (r1 > x) {
+                sqrt((r1.toDouble().pow(2) - x.toDouble().pow(2)))
+            } else {
+                null
+            }
+
+            count += max
+            min?.let {
+                count -= min.toLong()
+                if (isLong(min)) count++
             }
         }
 
         return (count + r2 - r1 + 1) * 4
+    }
+
+    fun isLong(num: Double): Boolean {
+        return floor(num) == num
     }
 }
 

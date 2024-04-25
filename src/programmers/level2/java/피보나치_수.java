@@ -1,4 +1,4 @@
-package programmers.level2;
+package programmers.level2.java;
 
 public class 피보나치_수 {
 

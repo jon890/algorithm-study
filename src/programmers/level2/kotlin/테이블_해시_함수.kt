@@ -1,4 +1,4 @@
-package programmers.level2
+package programmers.level2.kotlin
 
 class 테이블_해시_함수 {
 

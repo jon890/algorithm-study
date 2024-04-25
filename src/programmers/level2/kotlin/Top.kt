@@ -1,4 +1,4 @@
-package programmers.practice.level2
+package programmers.level2.kotlin
 
 /**
  * 프로그래머스

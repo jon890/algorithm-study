@@ -1,5 +1,8 @@
 package programmers.level2.kotlin
 
+import kotlin.math.max
+import kotlin.math.min
+
 /**
  * 논리 전개
  * 구간이 1인 지점은 발사해서 제거 (어쩔 수 없다 다른 지점을 쏴서 같이 커버할 순 없음)
@@ -10,39 +13,30 @@ package programmers.level2.kotlin
 class 요격_시스템 {
 
     fun solution(targets: Array<IntArray>): Int {
-        // start asc 정렬
-        // find min, max
-        targets.sortWith { o1, o2 ->
-            o1[0] - o2[0]
+        targets.sortWith { o1, o2 -> o1[0] - o2[0] }
+
+        // 첫 번째 영역에 미사일 발사
+        var count = 1
+        var prevStart = targets[0][0]
+        var prevEnd = targets[0][1]
+
+        for (i in 1..targets.lastIndex) {
+            // 이전에 발사한 미사일이 다음 영역을 커버하는가?
+            val currStart = targets[i][0]
+            val currEnd = targets[i][1]
+
+            // 구간 업데이트
+            if (prevStart <= currStart && currStart < prevEnd) {
+                prevStart = max(prevStart, currStart)
+                prevEnd = min(prevEnd, currEnd)
+            } else {
+                prevStart = currStart
+                prevEnd = currEnd
+                count++
+            }
         }
 
-        val min = targets[0][0]
-        val max = targets.sortedByDescending { it[1] }[0][1]
-
-        // 각 구간에서 요격할 수 있는 미사일 개수, 인덱스 기록
-        val data = IntRange(min, max - 1).map {
-            val pos = it + 0.5
-            var count = 0
-            val indexes = mutableListOf<Int>()
-
-            for (i in targets.indices) {
-                val target = targets[i]
-                val start = target[0]
-                val end = target[1]
-
-                if (start < pos && pos < end) {
-                    count++
-                    indexes.add(i)
-                }
-            }
-
-            arrayOf(pos, count, indexes)
-        }.sortedByDescending { it[1] as Int }
-
-        println("min: $min, max: $max")
-        println(data.joinToString { it.contentToString() })
-
-        return 0
+        return count
     }
 
     fun testTemplate(targets: Array<IntArray>, answer: Int) {

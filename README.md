@@ -3,4 +3,5 @@
 
 ## Milestones
 
-1. [ ] 24.04.27 코딩 테스트 대비, 코틀린 프로그래머스 2단계 문제 풀이 (진행중)
+- LeetCode Daily Challenge
+- [x] 2025-01-23

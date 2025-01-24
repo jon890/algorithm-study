@@ -5,3 +5,4 @@
 
 - LeetCode Daily Challenge
 - [x] 2025-01-23
+- [x] 2025-01-24
